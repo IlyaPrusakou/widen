@@ -7,78 +7,74 @@ using static System.Console;
 
 namespace Audioplayer
 {
-    static class ShufleExtension
+    static class ShufleExtension //L9-HW-Player-1/3.
     {
-        
-        public static Random rndAA = new Random();
-        public static CompareHelper Comp = new CompareHelper();
-        public static List<Song> ExtenShufle(this Player player, List<Song> oldList) //method shufle
-        {
+        public static Random rndAA = new Random(); //L9-HW-Player-1/3.
+        public static CompareHelper Comp = new CompareHelper(); //L9-HW-Player-1/3.
+        public static List<Song> ExtenShufle(this Player player, List<Song> oldList) //L9-HW-Player-1/3. 
+        {  
 
-            List<Song> newList = new List<Song>();
+            List<Song> newList = new List<Song>(); //L9-HW-Player-1/3.
 
-            for (int i = 0; i < oldList.Count + 1000; i++)
-            {
-                int index = rndAA.Next(0, oldList.Count);
-                if (!(newList.Contains(oldList[index])))
-                {
-                    newList.Add(oldList[index]);
-                }
-                else if (newList.Contains(oldList[index]))
-                {
-                    continue;
-                }
-            }
-            return newList;
-        }
-        public static List<Song> ExtenSortByTitle(this Player player, List<Song> oldList) //method to sort using custom Sorting class
-        {
-            List<Song> sortedSongsList = new List<Song>(); //method to sort using custom Sorting class
-            List<string> titleList = new List<string>(); //method to sort using custom Sorting class
-            foreach (Song item in oldList) //method to sort using custom Sorting class
-            {
-                titleList.Add(item.title); //method to sort using custom Sorting class
-
-            }
-            titleList.Sort(Comp); //method to sort using custom Sorting class
-            for (int i = 0; i < titleList.Count; i++) //method to sort using custom Sorting class
-            {
-                for (int j = 0; j < oldList.Count; j++) //method to sort using custom Sorting class
-                {
-                    if (titleList[i] == oldList[j].title) //method to sort using custom Sorting class
-                    {
-                        sortedSongsList.Add(oldList[j]); //method to sort using custom Sorting class
-                    }
-                }
-
-            }
-            return sortedSongsList; //method to sort using custom Sorting class
-        }
-    }
-    public static class StringExtension
-    {
-        
-        public static string StringSeparator(this string str, string s)
-        {
-            string sInsert = s.Insert(13, "^Nnn");
-            string[] separ = { "^Nnn" };
-            string[] sss = sInsert.Split(separ, StringSplitOptions.None);
-            string lastvar = sss[0] + "...";
-            return lastvar;
-        }
-        
-        
-        
-    }
+            for (int i = 0; i < oldList.Count + 1000; i++) //L9-HW-Player-1/3.
+            { 
+                int index = rndAA.Next(0, oldList.Count); //L9-HW-Player-1/3.
+                if (!newList.Contains(oldList[index])) //L9-HW-Player-1/3.
+                { 
+                    newList.Add(oldList[index]); //L9-HW-Player-1/3.
+                } 
+                else if (newList.Contains(oldList[index])) //L9-HW-Player-1/3.
+                { 
+                    continue; //L9-HW-Player-1/3.
+                } 
+            } 
+            return newList; //L9-HW-Player-1/3.
+        } 
+        public static List<Song> ExtenSortByTitle(this Player player, List<Song> oldList)  //L9-HW-Player-1/3.
+        { 
+            List<Song> sortedSongsList = new List<Song>();  //L9-HW-Player-1/3.
+            List<string> titleList = new List<string>();  //L9-HW-Player-1/3.
+            foreach (Song item in oldList)  //L9-HW-Player-1/3.
+            { 
+                titleList.Add(item.title);  //L9-HW-Player-1/3.
+            } 
+            titleList.Sort(Comp); //L9-HW-Player-1/3.
+            foreach (string item in titleList) { WriteLine("rrr  " + item); } //L9-HW-Player-1/3.
+            for (int i = 0; i < titleList.Count; i++)  //L9-HW-Player-1/3.
+            { 
+                foreach (Song t in oldList) //L9-HW-Player-1/3.
+                { 
+                    if (titleList[i] == t.title) //L9-HW-Player-1/3.
+                    { 
+                        sortedSongsList.Add(t); //L9-HW-Player-1/3.
+                    } 
+                    else if (titleList[i] != t.title) //L9-HW-Player-1/3.
+                    { 
+                        continue; //L9-HW-Player-1/3.
+                    } 
+                } 
+            } 
+            return sortedSongsList; //L9-HW-Player-1/3. 
+        } 
+    } 
+    public static class StringExtension //L9-HW-Player-2/3.
+    { 
+        public static string StringSeparator(this string str) //L9-HW-Player-2/3.
+        { 
+            string sInsert = str.Insert(13, "^Nnn"); //L9-HW-Player-2/3.
+            string[] separ = { "^Nnn" }; //L9-HW-Player-2/3.
+            string[] sss = sInsert.Split(separ, StringSplitOptions.None); //L9-HW-Player-2/3.
+            string lastvar = sss[0] + "..."; //L9-HW-Player-2/3.
+            return lastvar; //L9-HW-Player-2/3.
+        } 
+    } 
+    [Flags] //filterbygenres 
     public enum Genres // enum Genres
-    {
-        Pop = 1, Rock = 2, Metal = 3, Electro = 4
-    }
+    { 
+        Pop = 1, Rock = 2, Metal = 4, Electro = 8 //filterbygenres 
+    } 
     class Program
     {
-
-        
-
         //B5-Player7/10. OutRefParameters.
         public static int TotalDur;
         public static string Prop = "s";
@@ -171,42 +167,38 @@ namespace Audioplayer
             album.year = _year;
             return album;
         }
-
-        public static void FilterByGenres(List<Song> songs, Genres genre, Player player )
-        {
-            List<Song> ddd = new List<Song>();
-            var selectedSongs = from t in songs
-                                //from gen in t.songGenre
-                                where t.songGenre == genre
-                                select t;
-            foreach (Song t in selectedSongs)
-            {
-                ddd.Add(t);
-            }
-            player.ListSong(ddd);
-        }
-
+        public static List<Song> FilterByGenres(List<Song> songs, Genres genre) //filterbygenres 
+        { 
+            List<Song> FilterdList = new List<Song>(); //filterbygenres 
+            IEnumerable<Song> selectedSongs = from t in songs //filterbygenres 
+                                              where (t.songGenre & genre) == genre //filterbygenres 
+                                              select t; //filterbygenres 
+            foreach (Song t in selectedSongs) //filterbygenres 
+            { 
+                    FilterdList.Add(t); //filterbygenres 
+            } 
+            return FilterdList; //filterbygenres 
+        } 
         static void Main(string[] args)
         {
-
-            Player player = new Player(); 
-
+            Player player = new Player();
             List<Song> songList = new List<Song>(); 
-            for (int i = 0; i < 40; i++) 
+            for (int i = 0; i < 25; i++) 
             {
-                songList.Add(new Song { title = "ssss" + i, IsNext=false, duration = 540, songGenre=Genres.Pop });
-                if (i == 8 || i == 7 || i == 23 || i == 33) { songList[i].songGenre = Genres.Rock; }
+                songList.Add(new Song { title = i + "sssssssssss", IsNext=false, duration = 540, songGenre=Genres.Pop });
+
+                if (i == 8 || i == 7 || i == 23 || i == 24) { songList[i].songGenre = Genres.Rock | Genres.Pop; }
+                if (i == 1 || i == 2 || i == 20 || i == 13) { songList[i].songGenre = Genres.Rock | Genres.Pop | Genres.Electro; }
+                if (i == 3 || i == 5 || i == 15 || i == 22) { songList[i].songGenre = Genres.Rock | Genres.Metal; }
+
                 if (i == 3 || i == 7 || i == 23) { songList[i].LikeMethod(); }  //try like\dislike
                 if (i == 5 || i == 8 || i == 22 || i == 21) { songList[i].DislikeMethod(); } //try like\dislike
             }
-            player.ListSong(songList);
-            WriteLine("Test Songs");
-            FilterByGenres(songList, Genres.Rock, player);
-            
-
+            Genres testfilter = Genres.Rock | Genres.Pop; //filterbygenres 
+            List<Song> ListAfterFilter = FilterByGenres(songList, testfilter); //filterbygenres 
+            player.ListSong(ListAfterFilter); //filterbygenres 
             // B5-Player2/10. Fields.
             Song song1 = new Song();
-
             song1.duration = 300;
             song1.title = "Cvet nastroenia sinii";
             //song1.songGenre = "Metal";
