@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Audioplayer
 {
-    public class CompareHelper : IComparer<string> // realize custom sorting
+    public class CompareHelper : IComparer<string> 
     {
-        public int Compare(string x, string y) // realize custom sorting
+        public int Compare(string x, string y) 
         {
-            if (Convert.ToInt32(x[x.Length - 1]) < Convert.ToInt32(y[y.Length - 1])) // realize custom sorting
+            if (Convert.ToInt32(x[0]) < Convert.ToInt32(y[0])) 
             {
-                return -1;// realize custom sorting
+                return -1;
             }
-            else if (Convert.ToInt32(x[x.Length - 1]) > Convert.ToInt32(y[y.Length - 1]))// realize custom sorting
+            else if (Convert.ToInt32(x[0]) > Convert.ToInt32(y[0]))
             {
-                return 1;// realize custom sorting
+                return 1;
             }
-            else// realize custom sorting
+            else
             {
-                return 0;// realize custom sorting
+                return 0;
             }
         }
     }
@@ -34,9 +34,9 @@ namespace Audioplayer
         public const int maxVolume = 100;
         public bool isLock;
         private bool playing;
-        public List<Song> songs; //replace [] to list
+        public List<Song> songs; 
         public Random rnd = new Random();
-        public CompareHelper Comp = new CompareHelper(); // realize custom sorting
+        public CompareHelper Comp = new CompareHelper(); 
 
         //B5-Player4/10. Properties.
         public bool Playing
@@ -80,16 +80,16 @@ namespace Audioplayer
         }
         //BL8-Player1/3.SongTuples.
         // my .net version is 4.7.2
-        public (string Title, bool IsNext, (int Sec, int Min, int Hour)) GetSongData(Song song) 
-        {
-            var (str, boo, sec, min, hour) = song; 
-            string s = str;
-            bool d = boo;
-            int f = sec;
-            int f1 = min;
-            int f2 = hour;
-            return (Title: s, IsNext:d, (Sec: f, Min: f1, Hour: f2));
-        }
+        public (string Title, bool IsNext, (int Sec, int Min, int Hour)) GetSongData(Song song) //L9-HW-Player-3/3. 
+        { 
+            var (str, boo, sec, min, hour) = song; //L9-HW-Player-3/3. 
+            string s = str; //L9-HW-Player-3/3.
+            bool d = boo; //L9-HW-Player-3/3.
+            int f = sec; //L9-HW-Player-3/3.
+            int f1 = min; //L9-HW-Player-3/3.
+            int f2 = hour; //L9-HW-Player-3/3.
+            return (Title: s, IsNext:d, (Sec: f, Min: f1, Hour: f2)); //L9-HW-Player-3/3.
+        } 
 
         // BL8 - Player2 / 3.LikeDislike.
         public void ListSong(List<Song> list)
@@ -101,7 +101,7 @@ namespace Audioplayer
                 else if (item.Like == false) { Console.ForegroundColor = ConsoleColor.Red; }
                 else if (item.Like == null) { Console.ResetColor(); }
                 string paramertString = $"{tuple.Title}, {item.songGenre} - {tuple.Item3.Hour}:{tuple.Item3.Min}:{tuple.Item3.Sec}";
-                string outputString = paramertString.StringSeparator(paramertString);
+                string outputString = paramertString.StringSeparator();
                 Console.WriteLine(outputString);
             }
         }
@@ -131,17 +131,17 @@ namespace Audioplayer
                 Volume = Volume - Step;
             }
         }
-        public void Play(bool Loop = false) //change method play
+        public void Play(bool Loop = false) 
         {
-            if (Loop == false) //change method play
+            if (Loop == false) 
             {
-                //Shufle(songs); //change method play
+                ShufleExtension.ExtenShufle(this, songs);
             }
-            else //change method play
+            else 
             {
-                for (int i = 0; i < 5; i++) //change method play
+                for (int i = 0; i < 5; i++) 
                 {
-                    //Shufle(songs); //change method play
+                    ShufleExtension.ExtenShufle(this, songs);
                 }
             }
             if (playing == true)
@@ -153,13 +153,12 @@ namespace Audioplayer
                     System.Threading.Thread.Sleep(2000);
                 }
             }
-
         }
-        public void LyricsOutput() // this is method for output to console B7-Player1/2. SongsListShuffle.
+        public void LyricsOutput() 
         {
-            foreach (Song item in songs) // this is method for output to console B7-Player1/2. SongsListShuffle.
+            foreach (Song item in songs) 
             {
-                Console.WriteLine($"{item.title} --- {item.lyrics}"); // this is method for output to console B7-Player1/2. SongsListShuffle.
+                Console.WriteLine($"{item.title} --- {item.lyrics}"); 
             }
         }
         public bool Stop()
@@ -205,47 +204,5 @@ namespace Audioplayer
         public void Save()
         {
         }
-
-        //public List<Song> Shufle(List<Song> oldList) //method shufle
-        //{
-            //List<Song> newList = new List<Song>(); //method shufle
-            //for (int i = 0; i < oldList.Count + 1000; i++) //method shufle
-            //{
-                //int index = rnd.Next(0, oldList.Count); //method shufle
-                //if (!(newList.Contains(oldList[index]))) //method shufle
-                //{
-                    //newList.Add(oldList[index]); //method shufle
-                //}
-                //else if (newList.Contains(oldList[index]))  //method shufle
-                //{
-                    //continue; //method shufle
-                //}
-            //}
-            //return newList; //method shufle
-        //}
-
-        //public List<Song> SortByTitle(List<Song> oldList) //method to sort using custom Sorting class
-        //{
-            //List<Song> sortedSongsList = new List<Song>(); //method to sort using custom Sorting class
-            //List<string> titleList = new List<string>(); //method to sort using custom Sorting class
-            //foreach (Song item in oldList) //method to sort using custom Sorting class
-            //{
-                //titleList.Add(item.title); //method to sort using custom Sorting class
-
-            //}
-             //titleList.Sort(Comp); //method to sort using custom Sorting class
-            //for (int i = 0; i < titleList.Count; i++) //method to sort using custom Sorting class
-            //{
-                //for (int j = 0; j < oldList.Count; j++) //method to sort using custom Sorting class
-                //{
-                    //if (titleList[i] == oldList[j].title) //method to sort using custom Sorting class
-                    //{
-                        //sortedSongsList.Add(oldList[j]); //method to sort using custom Sorting class
-                    //}
-                //}
-                
-            //}
-            //return sortedSongsList; //method to sort using custom Sorting class
-        //}
     }
 }
